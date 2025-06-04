@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Detection Counts - DoorLogger</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .chart-container {
+            width: 600px;       /* fixed maximum width */
+            max-width: 100%;    /* responsive fallback */
+            margin: auto;
+        }
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <h2>Detections per Day</h2>
+    <div class="chart-container">
+        <canvas id="dailyChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('dailyChart').getContext('2d');
+        const dailyChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [],       
+                datasets: [{
+                    label: 'Number of Detections',
+                    data: [],      
+                    borderColor: 'blue',
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Date' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Count' },
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }
+            }
+        });
+
+        async function updateDailyChart() {
+            const response = await fetch("/api/daily-data");
+            const json = await response.json();
+
+            const dates = json.map(item => item.date);
+            const counts = json.map(item => item.count);
+
+            dailyChart.data.labels = dates;
+            dailyChart.data.datasets[0].data = counts;
+            dailyChart.update();
+        }
+
+        updateDailyChart();
+    </script>
+</body>
+</html>

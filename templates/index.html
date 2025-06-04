@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Doorlogger Dashboard</title>
-    <link rel="stylesheet" href="/static/styles.css">
+  <title>DoorLogger Login</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Recent Entries</h1>
-    <div id="logs"></div>
-
-    <script src="/static/main.js"></script>
+  <div id="login-section">
+    <h2>Login or Register</h2>
+    <input type="email" id="email" placeholder="Email"><br><br>
+    <input type="password" id="password" placeholder="Password"><br><br>
+    <button id="login-btn">Login</button>
+    <button id="register-btn">Register</button>
+    <p id="error-msg" style="color:red;"></p>
+  </div>
+  <script type="module" src="/static/main.js"></script>
 </body>
 </html>
